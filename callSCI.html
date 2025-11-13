@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Call on Load</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+    .card { text-align:center; padding:20px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.08); }
+    #fallback { display:none; margin-top:12px; }
+    a.button { display:inline-block; padding:10px 16px; border-radius:8px; text-decoration:none; border:1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Calling: 03612803320</h2>
+    <!-- <p>If your device supports it, the dialer should open automatically.</p>
+
+     Visible fallback if auto-redirect is blocked 
+    <div id="fallback">
+      <p>Automatic redirect didn't work — tap to call:</p>
+      <a class="button" id="callLink" href="tel:03612803320">Call 03612803320</a>
+    </div> -->
+  </div>
+
+  <script>
+    (function () {
+      var telUri = 'tel:03612803320';
+
+      // 1) Attempt to set location (works on many mobile browsers)
+      try {
+        window.location.href = telUri;
+      } catch (e) {
+        // ignore
+      }
+
+      // 2) Create and programmatically click an anchor (some browsers may allow this)
+      try {
+        var a = document.createElement('a');
+        a.href = telUri;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } catch (e) {
+        // ignore
+      }
+
+      // 3) After a short delay, show fallback UI for manual tap (useful on desktops / blocked cases)
+      setTimeout(function () {
+        document.getElementById('fallback').style.display = 'block';
+      }, 800);
+    })();
+  </script>
+</body>
+</html>
